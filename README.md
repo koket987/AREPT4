@@ -53,7 +53,7 @@ docker run -d -p 34000:35000 --name container1 dockerminispring
 
 ### 4. Configurar AWS EC2
 - Antes de todo necesitamos subir el docker a docker hub ya despues podemos proceder
-  Con lo que sigue
+  Con lo que sigue(no se incluye el archivo docker-compose)
   
 - Crear una instancia en AWS EC2 con un sistema operativo basado en Linux.
 - Instalar Docker en la instancia:
