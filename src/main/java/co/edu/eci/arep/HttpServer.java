@@ -8,13 +8,12 @@ import java.util.Map;
 
 public class HttpServer {
     private static final int PORT = 35000;
-    private static final String STATIC_FILES_PATH = "src/main/resources/www";
+    private static final String STATIC_FILES_PATH = "www";
+    private static volatile boolean running = true;
+    private static final String ADMIN_PASSWORD = "AREPTALLER";
 
     public static void main(String[] args) {
         try {
-            // Versión inicial: se carga el POJO (controlador) desde la línea de comandos.
-            // Ejemplo de invocación:
-            // java -cp target/classes co.edu.eci.arep.HttpServer co.edu.eci.arep.GreetingController
             if (args.length > 0) {
                 Class<?> controllerClass = Class.forName(args[0]);
                 MicroSpringBoot.registerController(controllerClass);
@@ -31,10 +30,11 @@ public class HttpServer {
     public static void startServer() {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Servidor iniciado en http://localhost:" + PORT);
-            while (true) {
+            while (running) {  // 🔹 El servidor puede apagarse cambiando `running` a `false`
                 Socket clientSocket = serverSocket.accept();
                 handleRequest(clientSocket);
             }
+            System.out.println("Servidor apagado correctamente.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,23 +57,34 @@ public class HttpServer {
             Map<String, String> queryParams = parseQueryParams(fullPath);
 
             if (method.equals("GET")) {
-                // Si la ruta comienza con "/App/rests", se asume que es una llamada a un servicio REST
                 if (path.startsWith("/App/rests")) {
-                    // Se remueve el prefijo para obtener la ruta configurada en la anotación @GetMapping
                     String route = path.replaceFirst("/App/rests", "");
                     Object response = MicroSpringBoot.handle(route, queryParams);
                     sendResponse(out, "200 OK", "application/json", response.toString().getBytes());
+                } else if (path.equals("/App/shutdown")) {  // 🔹 Nueva ruta para apagar el servidor
+                    handleShutdown(out, queryParams);
                 } else {
-                    // Se atiende la solicitud de archivo estático
                     serveStaticFile(out, path);
                 }
             } else {
-                // Respuesta para método no permitido en JSON
                 String jsonError = "{\"message\": \"Método no permitido\"}";
                 sendResponse(out, "405 Method Not Allowed", "application/json", jsonError.getBytes());
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void handleShutdown(OutputStream out, Map<String, String> queryParams) throws IOException {
+        String password = queryParams.get("password");
+
+        if (password != null && password.equals(ADMIN_PASSWORD)) {
+            running = false;  // 🔹 Apagar el servidor cambiando la variable de control
+            String message = "{\"message\": \"Servidor apagándose...\"}";
+            sendResponse(out, "200 OK", "application/json", message.getBytes());
+        } else {
+            String error = "{\"message\": \"Acceso denegado\"}";
+            sendResponse(out, "403 Forbidden", "application/json", error.getBytes());
         }
     }
 
