@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Servidor Web</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+<h1>Bienvenido al Servidor Web</h1>
+
+<form id="getForm">
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Consultar Usuario</button>
+</form>
+<div id="getResponse"></div>
+
+<h2>Imagenes de ejemplo:</h2>
+<div>
+    <img src="images/example.jpg" alt="Ejemplo" width="300">
+</div>
+
+<form id="postForm">
+    <label for="postname">Nombre:</label>
+    <input type="text" id="postname" name="postname" required>
+    <button type="submit">Registrar Usuario</button>
+</form>
+<div id="postResponse"></div>
+</body>
+</html>
+
+<script>
+    // Función para manejar el formulario GET
+    document.getElementById("getForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const name = document.getElementById("name").value;
+        fetch(`/App/rest/hello?name=${encodeURIComponent(name)}`)
+            .then(response => response.json())
+            .then(data => document.getElementById("getResponse").innerText = data.message)
+            .catch(error => console.error('Error:', error));
+    });
+
+    // Función para manejar el formulario POST
+    document.getElementById("postForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const name = document.getElementById("postname").value;
+        fetch(`/App/rest/register`, {
+            method: "POST",
+            body: `name=${encodeURIComponent(name)}`,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+            .then(response => response.json())
+            .then(data => document.getElementById("postResponse").innerText = data.message)
+            .catch(error => console.error('Error:', error));
+    });
+</script>
