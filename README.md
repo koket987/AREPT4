@@ -6,8 +6,8 @@ Este proyecto consiste en la implementación de un servidor web en Java, utiliza
 ## Arquitectura del Proyecto
 
 ### ACLARACION
-Si deseas correr este proyecto en tu maquina fisica solo debes cambiar en la ruta estatica de los archivos
-Por: src/main/resources/www
+**(Si deseas correr este proyecto en tu maquina fisica solo debes cambiar en la ruta estatica de los archivos
+Por: src/main/resources/www)**
 
 ### Tecnologías Utilizadas
 - **Lenguaje:** Java
