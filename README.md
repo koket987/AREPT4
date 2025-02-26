@@ -5,6 +5,10 @@ Este proyecto consiste en la implementación de un servidor web en Java, utiliza
 
 ## Arquitectura del Proyecto
 
+### ACLARACION
+Si deseas correr este proyecto en tu maquina fisica solo debes cambiar en la ruta estatica de los archivos
+Por: src/main/resources/www
+
 ### Tecnologías Utilizadas
 - **Lenguaje:** Java
 - **Framework Propio:** Implementado para manejar rutas y respuestas HTTP
@@ -75,8 +79,29 @@ docker run -d -p 42000:6000 --name firstdockerimageaws usuariodedocker/nombredel
 - Apagar el servidor enviando una petición GET a `http://ip-publica/App/shutdown?password=AREPTALLER`
 
 ## Capturas de Pantalla
-(Agregar capturas del servidor corriendo en AWS y pruebas en Postman o navegador)
+![image](https://github.com/user-attachments/assets/b7bccab9-dd9a-48b3-a9b6-bdd53dd9edad)
+![image](https://github.com/user-attachments/assets/fe69f43b-292c-4c99-9bee-ed2e9d2aebf1)
+![image](https://github.com/user-attachments/assets/2b58f543-19eb-495d-a32d-46822c41b800)
+![image](https://github.com/user-attachments/assets/2c76ecdd-54de-4d94-8fb7-aade6aa62d53)
+![image](https://github.com/user-attachments/assets/e5d8d142-10c9-45e4-8a7c-7e889a1d737d)
 
-## Autores
-- **Santiago Rodriguez**
+## Construido Con
+- **Java** - Lenguaje principal utilizado.
+- **Maven** - Para la gestión de dependencias.
+- **JUnit** - Para pruebas automatizadas.
+
+## Contribuciones
+Siéntete libre de hacer fork y enviar pull requests para mejorar el proyecto.
+
+## Autor
+* **Santiago** - *Trabajo inicial* - [GitHub Personal](https://github.com/koket987)
+
+## Licencia
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## Agradecimientos
+- Inspiración de implementaciones de servidores web minimalistas.
+- Comunidad de código abierto por las mejores prácticas.
+
+
 
